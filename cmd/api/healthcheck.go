@@ -15,6 +15,5 @@ func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Reques
 	if err != nil {
 		app.logger.Print(err)
 		http.Error(w, "The server encountered a problem and could not complete your request", http.StatusInternalServerError)
-		return
 	}
 }
