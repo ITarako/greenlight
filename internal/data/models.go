@@ -18,13 +18,23 @@ type Movies interface {
 	GetAll(title string, genres []string, filters Filters) ([]*Movie, Metadata, error)
 }
 
+type Users interface {
+	Insert(user *User) error
+	GetByEmail(email string) (*User, error)
+	Update(user *User) error
+}
+
 type Models struct {
 	Movies Movies
+	Users  Users
 }
 
 func NewModels(db *sql.DB) Models {
 	return Models{
 		Movies: MovieModel{
+			DB: db,
+		},
+		Users: UserModel{
 			DB: db,
 		},
 	}
