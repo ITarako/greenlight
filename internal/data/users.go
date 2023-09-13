@@ -19,7 +19,7 @@ type User struct {
 	Email     string    `json:"email"`
 	Password  password  `json:"-"`
 	Activated bool      `json:"activated"`
-	Version   int       `json:"_"`
+	Version   int       `json:"-"`
 }
 
 func ValidateEmail(v *validator.Validator, email string) {
