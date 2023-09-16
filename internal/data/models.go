@@ -23,6 +23,7 @@ type Users interface {
 	Insert(user *User) error
 	GetByEmail(email string) (*User, error)
 	Update(user *User) error
+	GetForToken(tokenScope, tokenPlaintext string) (*User, error)
 }
 
 type Tokens interface {
