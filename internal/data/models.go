@@ -32,16 +32,22 @@ type Tokens interface {
 	DeleteAllForUser(scope string, userID int64) error
 }
 
+type PermissionsInterface interface {
+	GetAllForUser(userID int64) (Permissions, error)
+}
+
 type Models struct {
-	Movies Movies
-	Users  Users
-	Tokens Tokens
+	Movies      Movies
+	Users       Users
+	Tokens      Tokens
+	Permissions PermissionsInterface
 }
 
 func NewModels(db *sql.DB) Models {
 	return Models{
-		Movies: MovieModel{DB: db},
-		Users:  UserModel{DB: db},
-		Tokens: TokenModel{DB: db},
+		Movies:      MovieModel{DB: db},
+		Users:       UserModel{DB: db},
+		Tokens:      TokenModel{DB: db},
+		Permissions: PermissionModel{DB: db},
 	}
 }
