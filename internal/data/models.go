@@ -34,6 +34,7 @@ type Tokens interface {
 
 type PermissionsInterface interface {
 	GetAllForUser(userID int64) (Permissions, error)
+	AddForUser(userID int64, codes ...string) error
 }
 
 type Models struct {
