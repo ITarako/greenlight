@@ -200,17 +200,13 @@ func (app *application) enableCORS(next http.Handler) http.Handler {
 }
 
 type metricsResponseWriter struct {
-	wrapped       http.ResponseWriter
+	http.ResponseWriter
 	statusCode    int
 	headerWritten bool
 }
 
-func (mw *metricsResponseWriter) Header() http.Header {
-	return mw.wrapped.Header()
-}
-
 func (mw *metricsResponseWriter) WriteHeader(statusCode int) {
-	mw.wrapped.WriteHeader(statusCode)
+	mw.ResponseWriter.WriteHeader(statusCode)
 
 	if !mw.headerWritten {
 		mw.statusCode = statusCode
@@ -224,11 +220,11 @@ func (mw *metricsResponseWriter) Write(b []byte) (int, error) {
 		mw.headerWritten = true
 	}
 
-	return mw.wrapped.Write(b)
+	return mw.ResponseWriter.Write(b)
 }
 
 func (mw *metricsResponseWriter) Unwrap() http.ResponseWriter {
-	return mw.wrapped
+	return mw.ResponseWriter
 }
 
 func (app *application) metrics(next http.Handler) http.Handler {
@@ -244,7 +240,7 @@ func (app *application) metrics(next http.Handler) http.Handler {
 
 		totalRequestsReceived.Add(1)
 
-		mw := &metricsResponseWriter{wrapped: w}
+		mw := &metricsResponseWriter{ResponseWriter: w}
 
 		next.ServeHTTP(mw, r)
 
